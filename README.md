@@ -1,0 +1,1 @@
+# WordPress OOP Plugin Boilerplate
