@@ -1,0 +1,10 @@
+{
+    "name": "efsnetworks/wp_classifieds",
+    "type": "wordpress-plugin",
+    "require": {},
+    "autoload":{
+        "psr-4": {
+            "WPClassifieds\\" : "./"
+        }
+    }
+}
