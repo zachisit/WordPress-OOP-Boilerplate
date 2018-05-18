@@ -1,10 +1,10 @@
 {
-    "name": "efsnetworks/wp_classifieds",
+    "name": "zachisit/wppluginname",
     "type": "wordpress-plugin",
     "require": {},
     "autoload":{
         "psr-4": {
-            "WPClassifieds\\" : "./"
+            "WPPluginName\\" : "./"
         }
     }
 }

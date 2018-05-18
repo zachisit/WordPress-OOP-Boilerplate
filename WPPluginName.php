@@ -3,6 +3,7 @@
 namespace WPPluginName;
 
 use WPPluginName\CPT\CPTName;
+use WPPluginName\DashboardWidgets\DashboardWidgets;
 use WPPluginName\Shortcodes\Shortcode;
 
 class WPPluginName
@@ -43,6 +44,10 @@ class WPPluginName
     public function addActions()
     {
         CPTName::registerActions();
+        DashboardWidgets::registerActions();
+
+        //enqueu scripts hook
+        //ajax posting hook
     }
 
     public function registerFilters()
@@ -55,6 +60,7 @@ class WPPluginName
      */
     public static function install()
     {
+        //put db field creation here
     }
 
     /**
@@ -64,8 +70,13 @@ class WPPluginName
     {
     }
 
-    public static function populateTemplateFile()
+    public static function registerAdminStyles()
     {
+        //wp_enqueue_style
+    }
 
+    public static function registerFrontendScripts()
+    {
+        //wp_enqueue_script
     }
 }
