@@ -5,10 +5,11 @@ namespace WPPluginName;
 use WPPluginName\CPT\CPTName;
 use WPPluginName\DashboardWidgets\DashboardWidgets;
 use WPPluginName\Shortcodes\Shortcode;
+use WPPluginName\AdminScreen\AdminScreen;
 
 class WPPluginName
 {
-    private static $classified = null;
+    private static $wpPluginName = null;
 
     public function __construct()
     {
@@ -26,10 +27,10 @@ class WPPluginName
      */
     public static function getInstance()
     {
-        if (!(self::$classified instanceof self)) {
-            self::$classified = new self();
+        if (!(self::$wpPluginName instanceof self)) {
+            self::$wpPluginName = new self();
         }
-        return self::$classified;
+        return self::$wpPluginName;
     }
 
     /**
@@ -41,12 +42,23 @@ class WPPluginName
         return self::getInstance();
     }
 
+    /**
+     * @throws \Exception
+     */
     public function addActions()
     {
         CPTName::registerActions();
         DashboardWidgets::registerActions();
+//        AdminScreen::add_admin_screen([
+//            'page_title' => 'Name',
+//            'menu_title' => 'Max',
+//            'menu_slug' => 'url_of_screen',
+//            'dashicon' => 'dashicons-carrot',
+//            'screen_template' => 'admin_screen',
+//        ]);
 
         //enqueu scripts hook
+
         //ajax posting hook
     }
 
