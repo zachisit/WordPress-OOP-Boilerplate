@@ -6,12 +6,6 @@ Created and maintained as I progress through my education of building a WordPres
 - Composer
 - Twig template engine
 
-## Utility Notes
-* In-house templating method used for metaboxes; etc
-* Metaboxes use native WordPress open/close logic for section widgets
-* General image creator generates the html markup for an image with passed in URL
-* Uses Composer for autoloading and namespacing
-
 ## Pull Requests
 PRs are welcome!
 
