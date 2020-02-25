@@ -1,7 +1,10 @@
 {
     "name": "zachisit/wppluginname",
     "type": "wordpress-plugin",
-    "require": {},
+    "require": {
+        "twig/twig": "^2.0",
+        "ext-json": "*"
+    },
     "autoload":{
         "psr-4": {
             "WPPluginName\\" : "./"

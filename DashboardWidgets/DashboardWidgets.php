@@ -2,11 +2,16 @@
 
 namespace WPPluginName\DashboardWidgets;
 
-use WPPluginName\WPPluginName;
+use WPPluginName\Utility\ViewBuilder;
 
-class DashboardWidgets
+/**
+ * Class DashboardWidgets
+ * @package WPPluginName\DashboardWidgets
+ */
+final class DashboardWidgets
 {
-    private static $widgetsRemove = [
+    /** @var array */
+    protected static $widgetsRemove = [
         'dashboard_incoming_links' => [
             'page' => 'dashboard',
             'context' => 'normal'
@@ -24,32 +29,35 @@ class DashboardWidgets
             'context' => 'side'
         ]
     ];
-    private static $widgetToAdd = [
+    /** @var array */
+    protected static $widgetToAdd = [
         'wpclassified_dashboard_widget' => [
             'title' => 'Lorem Ipsum Title Dashboard Widget',
             'callback' => [__CLASS__,'dashboardWidgetContent']
         ]
     ];
+    /** @var string */
+    protected static $template = 'dashboard_widget';
 
     public function __construct()
     {
         //nothing here
     }
 
-    public static function registerActions()
+    public static function registerActions(): void
     {
         add_action('wp_dashboard_setup', [__CLASS__, 'removeDashboardWidgets']);
         add_action('wp_dashboard_setup', [__CLASS__, 'addDashboardWidget']);
     }
 
-    public static function removeDashboardWidgets()
+    public static function removeDashboardWidgets(): void
     {
         foreach ( static::$widgetsRemove as $widget_id => $options ) {
             remove_meta_box( $widget_id, $options['page'], $options['context'] );
         }
     }
 
-    public static function addDashboardWidget()
+    public static function addDashboardWidget(): void
     {
         foreach ( static::$widgetToAdd as $widget_id => $options ) {
             wp_add_dashboard_widget(
@@ -60,12 +68,15 @@ class DashboardWidgets
         }
     }
 
-    public static function dashboardWidgetContent()
+    public static function dashboardWidgetContent(): void
     {
-        $string = WPClassifieds::populateTemplateFile( 'DashboardWidget/dashboard_widget_template', [
-            //nothing here...yet
-        ]);
-
-        echo $string;
+        $viewArgs = [];
+        try {
+            $view = new ViewBuilder(['args' => $viewArgs]);
+            $view->setTemplate('DashboardWidget/' .self::$template);
+            echo $view->render();
+        } catch (\Exception $exception) {
+            trigger_error($exception->getMessage(),E_USER_WARNING);
+        }
     }
 }

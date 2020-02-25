@@ -1,8 +1,10 @@
 # WordPress OOP Plugin Boilperplate
 Created and maintained as I progress through my education of building a WordPress plugin in the OOP environment. 
 
-## Development Roadmap
-Development will be ongoing and the repo updated as I progress. 
+## Requirements
+- PHP >7.0.1
+- Composer
+- Twig template engine
 
 ## Utility Notes
 * In-house templating method used for metaboxes; etc
