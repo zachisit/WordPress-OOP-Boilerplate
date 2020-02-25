@@ -1,15 +1,17 @@
 <?php
 
-namespace WPPluginName\Shortcodes;
+namespace WPPluginName\Shortcode;
+
+use WPPluginName\Utility\Helper;
 
 /**
  * Class HelloWorld
- * @package WPPluginName\Shortcodes
+ * @package WPPluginName\Shortcode
  */
 class HelloWorld extends Shortcode
 {
     /** @var string */
-    protected static $shortcodeTag = 'wppluginname_hello_world';
+    protected static $shortcodeTag = 'hello_world';
 
     /**
      * @return string
@@ -24,6 +26,7 @@ class HelloWorld extends Shortcode
      */
     public function doShortcode(string $atts): void
     {
+        Helper::errorLog('hi');
         $this->createView([
             //
         ]);

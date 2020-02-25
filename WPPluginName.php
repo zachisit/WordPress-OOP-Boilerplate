@@ -4,7 +4,7 @@ namespace WPPluginName;
 
 use WPPluginName\CPT\CPTName;
 use WPPluginName\DashboardWidgets\DashboardWidgets;
-use WPPluginName\Shortcodes\Shortcode;
+use WPPluginName\Shortcode\Shortcode;
 
 /**
  * Class WPPluginName
@@ -28,7 +28,7 @@ final class WPPluginName
     /**
      * @return self
      */
-    public static function getInstance()
+    public static function getInstance(): self
     {
         if (!(self::$wpPluginName instanceof self)) {
             self::$wpPluginName = new self();
@@ -40,7 +40,7 @@ final class WPPluginName
      * Currently an alias of getInstance, eventually this will contain the functions to initialize the plugin
      * @return WPPluginName
      */
-    public static function init()
+    public static function init(): self
     {
         return self::getInstance();
     }
@@ -65,7 +65,7 @@ final class WPPluginName
         //ajax posting hook
     }
 
-    public function registerFilters()
+    public function registerFilters(): void
     {
         CPTName::registerFilters();
     }
