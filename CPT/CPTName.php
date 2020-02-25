@@ -3,21 +3,45 @@
 namespace WPPluginName\CPT;
 
 
-class CPTName
+use WPPluginName\Utility\ViewBuilder;
+
+/**
+ * Class CPTName
+ * @package WPPluginName\CPT
+ */
+/*
+ * currently attaching everything to a single
+ * CPT entry including building the CPT itself
+ *
+ * @TODO
+ * - move CPT into abstract class, then additional
+ *      CPTs will extend with specific properties
+ *      applicable to that CPT
+ */
+final class CPTName
 {
+    /** @var string */
     protected static $name = 'CPTName';
+    /** @var string */
     protected static $cpt_name = 'cpt_formal_name';
+    /** @var string */
     protected static $tax_name = 'cpt_formal_name_cat';
 
+    /** @var \WP_Post */
     private $postVariable;
 
 
-    public function __construct($postID, $data)
+    /**
+     * CPTName constructor.
+     * @param int $postID
+     * @param array $data
+     */
+    public function __construct(int $postID, array $data)
     {
         $this->postVariable = get_post($postID);
     }
 
-    public static function registerActions()
+    public static function registerActions(): void
     {
         add_action('init', [__CLASS__, 'createCPT']);
         add_action('init', [__CLASS__, 'registerTax']);
@@ -26,10 +50,14 @@ class CPTName
 
     public static function registerFilters()
     {
-
+        //
     }
 
-    public function __get($name)
+    /**
+     * @param string $name
+     * @return null
+     */
+    public function __get(string $name): ?string
     {
         return $this->postVariable->{$name} ?? null;
     }
@@ -51,7 +79,7 @@ class CPTName
     }
 
 
-    public static function createCPT()
+    public static function createCPT(): void
     {
         register_post_type(
             self::getCPTName(),
@@ -85,7 +113,7 @@ class CPTName
      *
      * @return string - 'classified'
      */
-    protected static function getCPTPostName()
+    protected static function getCPTPostName(): string
     {
         return self::$cpt_name;
     }
@@ -95,7 +123,7 @@ class CPTName
      *
      * @return string - 'Classified'
      */
-    protected static function getCPTName()
+    protected static function getCPTName(): string
     {
         return self::$name;
     }
@@ -105,35 +133,39 @@ class CPTName
      *
      * @return string
      */
-    public static function getCPTTaxName()
+    public static function getCPTTaxName(): string
     {
         return self::$tax_name;
     }
 
-    public function save()
+    public function save(): void
     {
         wp_update_post([]);
 
         //Save custom meta stuff here.
     }
 
-    public static function create_meta_box()
+    public static function create_meta_box(): void
     {
         add_meta_box('metabox_formal_name', 'Lorem Ipsum Dorem', [__CLASS__, 'create_meta_values'], self::getCPTPostName());
     }
 
-    public static function create_meta_values()
+    public static function create_meta_values(): void
     {
         global $post;
 
-        //noncename needed to verify where the data originated
-        wp_nonce_field( plugin_basename(__FILE__), self::getCPTPostName().'_noncename' );
+        $viewArgs = [
+            'nonce' => wp_nonce_field( plugin_basename(__FILE__), self::getCPTPostName().'_noncename' ),
+            'postMeta' => get_post_meta ($post->ID)
+        ];
 
-        $string = WPClassifieds::populateTemplateFile( 'Metabox/metabox_template_name',
-            get_post_meta ($post->ID)
-        );
-
-        echo $string;
+        try {
+            $view = new ViewBuilder(['args' => $viewArgs]);
+            $view->setTemplate('Metabox/metabox_name');
+            echo $view->render();
+        } catch (\Exception $exception) {
+            trigger_error($exception->getMessage(),E_USER_WARNING);
+        }
     }
 
     public static function registerTax()

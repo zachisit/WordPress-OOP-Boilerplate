@@ -5,9 +5,12 @@ namespace WPPluginName;
 use WPPluginName\CPT\CPTName;
 use WPPluginName\DashboardWidgets\DashboardWidgets;
 use WPPluginName\Shortcodes\Shortcode;
-use WPPluginName\AdminScreen\AdminScreen;
 
-class WPPluginName
+/**
+ * Class WPPluginName
+ * @package WPPluginName
+ */
+final class WPPluginName
 {
     private static $wpPluginName = null;
 

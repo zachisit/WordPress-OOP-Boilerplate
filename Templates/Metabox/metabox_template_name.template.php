@@ -1,6 +1,0 @@
-<?php
-/**
- * Template Metabox
- */
-?>
-tater.
