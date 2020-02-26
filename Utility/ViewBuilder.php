@@ -23,6 +23,7 @@ final class ViewBuilder
 
     /**
      * ViewBuilder constructor.
+     *
      * @param array $data
      * @param null $loader
      * @param null $twig
@@ -122,7 +123,6 @@ final class ViewBuilder
     {
         $fullTemplate = $template.'.html.twig';
         $fileName = PM_ABSPATH.'/Templates/'.$fullTemplate;
-        Helper::errorLog('looking for template '.$fileName);
 
         if (file_exists($fileName)) {
             $this->template = $fullTemplate;
