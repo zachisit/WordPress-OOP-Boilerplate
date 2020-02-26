@@ -22,18 +22,27 @@ abstract class Shortcode
     /** @var array  */
     protected $additionalCSS = [];
 
+    /** @var string */
     protected static $shortcodeTag;
-
     /** @var array */
     private static $definedShortCodes = [
         'HelloWorld'
     ];
+    /** @var array */
     private static $initializedShortCodes = [];
 
+    /**
+     * @param string $atts
+     * @return mixed
+     */
     abstract protected function doShortcode(string $atts);
 
-    abstract protected function getTemplateName();
+    /**
+     * @return string
+     */
+    abstract protected function getTemplateName(): string;
 
+    
     /**
      * Shortcode constructor.
      */
@@ -124,7 +133,7 @@ abstract class Shortcode
     public function registerAdditionalFrontendScripts(): void
     {
         foreach ($this->additionalLocalScripts as $script) {
-            wp_register_script($script, plugins_url($script.'.js',WP_PET_MANAGEMENT),null, rand(), true);
+            wp_register_script($script, plugins_url($script.'.js',PLUGIN_NAME),null, rand(), true);
         }
     }
 
@@ -138,14 +147,14 @@ abstract class Shortcode
     public function registerAdditionalFrontendCSS(): void
     {
         foreach ($this->additionalCSS as $style) {
-            wp_enqueue_style($style, plugins_url($style.'.css',WP_PET_MANAGEMENT));
+            wp_enqueue_style($style, plugins_url($style.'.css',PLUGIN_NAME));
         }
     }
 
     public function registerFrontendScripts(): void
     {
         $scriptName = Helper::getClass($this);
-        $url = plugins_url('js/'.$scriptName.'.js',WP_PET_MANAGEMENT);
+        $url = plugins_url('js/'.$scriptName.'.js',PLUGIN_NAME);
         $path = PM_ABSPATH.'/js/'.$scriptName.'.js';
 
         if (file_exists($path)) {
@@ -160,7 +169,6 @@ abstract class Shortcode
      */
     public function createView(array $args = []): void
     {
-        Helper::errorLog('createView');
         try {
             $view = new ViewBuilder(['args' => $args]);
             $view->setTemplate('Shortcode/' . $this->getTemplateName());

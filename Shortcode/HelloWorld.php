@@ -2,8 +2,6 @@
 
 namespace WPPluginName\Shortcode;
 
-use WPPluginName\Utility\Helper;
-
 /**
  * Class HelloWorld
  * @package WPPluginName\Shortcode
