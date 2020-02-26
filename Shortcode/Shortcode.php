@@ -22,6 +22,8 @@ abstract class Shortcode
     /** @var array  */
     protected $additionalCSS = [];
 
+    protected static $shortcodeTag;
+
     /** @var array */
     private static $definedShortCodes = [
         'HelloWorld'
@@ -37,11 +39,12 @@ abstract class Shortcode
      */
     public function __construct()
     {
-        if (Helper::getClass($this)) {
-            add_shortcode(Helper::getClass($this), [$this, 'setUpShortcode']);
-            $this->addAjaxAction();
-            $this->registerFrontendScripts();
-        }
+        //use passed in shortcode tag or the class name
+        $tag = static::$shortcodeTag ?? Helper::getClass($this);
+        add_shortcode($tag, [$this, 'setUpShortcode']);
+        $this->addAjaxAction();
+        $this->registerFrontendScripts();
+
         if (!empty($this->additionalLocalScripts)) {
             $this->addAdditionScriptAction();
             $this->registerAdditionalFrontendScripts();
@@ -80,13 +83,10 @@ abstract class Shortcode
     {
         foreach (self::$definedShortCodes as $shortCode) {
             if (!isset(self::$initializedShortCodes[$shortCode])) {
-                $shortCodeObject = "\\".PLUGIN_NAME."\Shortcode\\".$shortCode;
-                Helper::errorLog($shortCodeObject);
-                //Helper::errorLog(class_exists($shortCodeObject));
+                $shortCodeObject = __NAMESPACE__."\\".$shortCode;
                 self::$initializedShortCodes[$shortCode] = new $shortCodeObject;
             }
         }
-        //Helper::errorLog(self::$initializedShortCodes);
     }
 
     public function addAjaxAction(): void
