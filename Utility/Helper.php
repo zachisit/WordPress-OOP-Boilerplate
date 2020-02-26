@@ -9,6 +9,14 @@ namespace WPPluginName\Utility;
 final class Helper
 {
     /**
+     * @param string|array|object $data
+     */
+    public static function errorLog($data): void
+    {
+        error_log(print_r($data,true));
+    }
+
+    /**
      * @param $object
      * @return string
      */

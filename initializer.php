@@ -3,7 +3,7 @@
 Plugin Name: WordPress OOP Plugin Boilerplate
 Plugin URI: https://zachis.it
 Description: Description of Plugin here
-Version: 0.3.2
+Version: 0.3.3
 Author: Zach Smith
 Author URI: https://twitter.com/zachisit
 */

@@ -1,15 +1,15 @@
 <?php
 
-namespace WPPluginName\Shortcodes;
+namespace WPPluginName\Shortcode;
 
 /**
  * Class HelloWorld
- * @package WPPluginName\Shortcodes
+ * @package WPPluginName\Shortcode
  */
 class HelloWorld extends Shortcode
 {
     /** @var string */
-    protected static $shortcodeTag = 'wppluginname_hello_world';
+    protected static $shortcodeTag = 'hello_world';
 
     /**
      * @return string

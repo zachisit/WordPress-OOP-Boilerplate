@@ -1,13 +1,13 @@
 <?php
 
-namespace WPPluginName\Shortcodes;
+namespace WPPluginName\Shortcode;
 
 use WPPluginName\Utility\Helper;
 use WPPluginName\Utility\ViewBuilder;
 
 /**
  * Class Shortcode
- * @package WPPluginName\Shortcodes
+ * @package WPPluginName\Shortcode
  */
 abstract class Shortcode
 {
@@ -22,6 +22,8 @@ abstract class Shortcode
     /** @var array  */
     protected $additionalCSS = [];
 
+    /** @var string */
+    protected static $shortcodeTag;
     /** @var array */
     private static $definedShortCodes = [
         'HelloWorld'
@@ -29,18 +31,29 @@ abstract class Shortcode
     /** @var array */
     private static $initializedShortCodes = [];
 
+    /**
+     * @param string $atts
+     * @return mixed
+     */
     abstract protected function doShortcode(string $atts);
 
-    abstract protected function getTemplateName();
+    /**
+     * @return string
+     */
+    abstract protected function getTemplateName(): string;
 
-
+    
+    /**
+     * Shortcode constructor.
+     */
     public function __construct()
     {
-        if (Helper::getClass($this)) {
-            add_shortcode(Helper::getClass($this), [$this, 'setUpShortcode']);
-            $this->addAjaxAction();
-            $this->registerFrontendScripts();
-        }
+        //use passed in shortcode tag or the class name
+        $tag = static::$shortcodeTag ?? Helper::getClass($this);
+        add_shortcode($tag, [$this, 'setUpShortcode']);
+        $this->addAjaxAction();
+        $this->registerFrontendScripts();
+
         if (!empty($this->additionalLocalScripts)) {
             $this->addAdditionScriptAction();
             $this->registerAdditionalFrontendScripts();
@@ -79,7 +92,7 @@ abstract class Shortcode
     {
         foreach (self::$definedShortCodes as $shortCode) {
             if (!isset(self::$initializedShortCodes[$shortCode])) {
-                $shortCodeObject = "\\".PLUGIN_NAME."\Shortcodes\\".$shortCode;
+                $shortCodeObject = __NAMESPACE__."\\".$shortCode;
                 self::$initializedShortCodes[$shortCode] = new $shortCodeObject;
             }
         }
@@ -120,7 +133,7 @@ abstract class Shortcode
     public function registerAdditionalFrontendScripts(): void
     {
         foreach ($this->additionalLocalScripts as $script) {
-            wp_register_script($script, plugins_url($script.'.js',PLUGIN_ROOT),null, rand(), true);
+            wp_register_script($script, plugins_url($script.'.js',PLUGIN_NAME),null, rand(), true);
         }
     }
 
@@ -134,14 +147,14 @@ abstract class Shortcode
     public function registerAdditionalFrontendCSS(): void
     {
         foreach ($this->additionalCSS as $style) {
-            wp_enqueue_style($style, plugins_url($style.'.css',PLUGIN_ROOT));
+            wp_enqueue_style($style, plugins_url($style.'.css',PLUGIN_NAME));
         }
     }
 
     public function registerFrontendScripts(): void
     {
         $scriptName = Helper::getClass($this);
-        $url = plugins_url('js/'.$scriptName.'.js',PLUGIN_ROOT);
+        $url = plugins_url('js/'.$scriptName.'.js',PLUGIN_NAME);
         $path = PM_ABSPATH.'/js/'.$scriptName.'.js';
 
         if (file_exists($path)) {

@@ -23,6 +23,7 @@ final class ViewBuilder
 
     /**
      * ViewBuilder constructor.
+     *
      * @param array $data
      * @param null $loader
      * @param null $twig
@@ -80,18 +81,6 @@ final class ViewBuilder
 
             $this->twig->addGlobal('home_url',home_url());
             $this->twig->addGlobal('logoutURL',home_url('/wp-login.php?action=logout'));
-
-            /**
-             * commenting below out, as we are not really using
-             * this in templates
-             * @author zach
-             * @date 2020/01/31
-             */
-//            if (is_user_logged_in()) {
-//                //@TODO:move this into templates
-//                $user = User::getUserObject();
-//                $this->twig->addGlobal('currentUserObject',$user);
-//            }
         } catch (\Twig_Error_Loader $exception) {
             throw new \Exception($exception->getMessage());
         }
@@ -133,7 +122,7 @@ final class ViewBuilder
     public function setTemplate($template)
     {
         $fullTemplate = $template.'.html.twig';
-        $fileName = PM_ABSPATH.$this->templateBasePath.'/Templates/'.$fullTemplate;
+        $fileName = PM_ABSPATH.'/Templates/'.$fullTemplate;
 
         if (file_exists($fileName)) {
             $this->template = $fullTemplate;
