@@ -2,8 +2,7 @@
 
 namespace WPPluginName;
 
-use WPPluginName\CPT\CPTName;
-use WPPluginName\DashboardWidgets\DashboardWidgets;
+use WPPluginName\CPT\CPTHelloWorld;
 use WPPluginName\Shortcode\Shortcode;
 
 /**
@@ -12,8 +11,14 @@ use WPPluginName\Shortcode\Shortcode;
  */
 final class WPPluginName
 {
+    /** @var null */
     private static $wpPluginName = null;
 
+
+    /**
+     * WPPluginName constructor.
+     * @throws \Exception
+     */
     public function __construct()
     {
         register_activation_hook(__FILE__, [__CLASS__, 'install']);
@@ -21,7 +26,7 @@ final class WPPluginName
 
         $this->addActions();
         $this->registerFilters();
-
+        CPTHelloWorld::init();
         Shortcode::addShortcodes();
     }
 
@@ -50,8 +55,7 @@ final class WPPluginName
      */
     public function addActions()
     {
-        CPTName::registerActions();
-        DashboardWidgets::registerActions();
+        //DashboardWidgets::registerActions();
 //        AdminScreen::add_admin_screen([
 //            'page_title' => 'Name',
 //            'menu_title' => 'Max',
@@ -67,7 +71,7 @@ final class WPPluginName
 
     public function registerFilters(): void
     {
-        CPTName::registerFilters();
+        //
     }
 
     /**
@@ -83,6 +87,7 @@ final class WPPluginName
      */
     public static function uninstall()
     {
+        //
     }
 
     public static function registerAdminStyles()
