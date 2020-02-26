@@ -26,7 +26,6 @@ class HelloWorld extends Shortcode
      */
     public function doShortcode(string $atts): void
     {
-        Helper::errorLog('hi');
         $this->createView([
             //
         ]);
