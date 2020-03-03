@@ -47,6 +47,7 @@ final class ViewBuilder
 
     /**
      * Return a JavaScript friendly view used in frontend DOM painting
+     * via your favorite template file
      *
      * @param array $viewArray
      * @param string $templateName
@@ -117,12 +118,12 @@ final class ViewBuilder
     }
 
     /**
-     * @param $template
+     * @param string $template
      */
-    public function setTemplate($template)
+    public function setTemplate(string $template): void
     {
         $fullTemplate = $template.'.html.twig';
-        $fileName = PM_ABSPATH.'/Templates/'.$fullTemplate;
+        $fileName = TEMPLATE_PATH.$fullTemplate;
 
         if (file_exists($fileName)) {
             $this->template = $fullTemplate;
