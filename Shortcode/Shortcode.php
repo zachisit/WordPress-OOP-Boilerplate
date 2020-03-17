@@ -63,7 +63,7 @@ abstract class Shortcode
             $this->addAdditionalExternalScripts();
             $this->registerAdditionalExternalScripts();
         }
-        if ($this->hasAdditionalCSS) {
+        if (!empty($this->additionalCSS)) {
             $this->registerAdditionalFrontendCSS();
         }
     }
@@ -147,7 +147,7 @@ abstract class Shortcode
     public function registerAdditionalFrontendCSS(): void
     {
         foreach ($this->additionalCSS as $style) {
-            wp_enqueue_style($style, plugins_url($style.'.css',PLUGIN_NAME));
+            wp_enqueue_style($style, PLUGIN_ROOT.'/'.$style.'.css');
         }
     }
 
