@@ -2,7 +2,7 @@
     "name": "zachisit/wppluginname",
     "type": "wordpress-plugin",
     "require": {
-        "twig/twig": "^2.0",
+        "twig/twig": "^3.11",
         "ext-json": "*"
     },
     "autoload":{
